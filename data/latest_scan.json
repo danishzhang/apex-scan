@@ -12,7 +12,13 @@
       "macd": { "dif": -0.18, "dea": -0.27, "histogram_tail": [-0.31, -0.24, -0.15, -0.09], "about_to_turn": true },
       "ma200_pass": true,
       "trend": { "direction": "up", "support_level": 14.10, "resistance_level": 15.60, "entry_zone": "near support (low risk)", "suggested_stop": 14.03 },
-      "news": { "summary": "Beat Q2 earnings and raised full-year member growth guidance.", "headline": "SoFi Technologies Tops Estimates, Lifts FY Guidance on Record Member Growth", "category": "earnings", "source": "benzinga" }
+      "spark": [11.9, 12.3, 12.1, 12.6, 13.0, 12.8, 13.2, 13.5, 13.3, 13.7, 14.0, 13.8, 14.1, 14.3, 14.2, 14.4, 14.5, 14.3, 14.55, 14.82],
+      "analyst": { "rating_label": "Buy", "score": 2.1, "price_target": 17.50, "source": "finviz" },
+      "news": [
+        { "summary": "Beat Q2 earnings and raised full-year member growth guidance.", "headline": "SoFi Technologies Tops Estimates, Lifts FY Guidance on Record Member Growth", "category": "earnings", "source": "benzinga", "url": "https://www.benzinga.com/quote/SOFI" },
+        { "summary": "Lending segment originations hit a new company record in the quarter.", "headline": "SoFi Lending Originations Set Fresh Record in Q2", "category": "earnings", "source": "benzinga", "url": "https://www.benzinga.com/quote/SOFI" },
+        { "summary": "Firm added several bank charter partnerships expanding deposit base.", "headline": "SoFi Expands Bank Partnership Network", "category": "contract", "source": "finviz", "url": "https://finviz.com/quote.ashx?t=SOFI" }
+      ]
     },
     {
       "symbol": "PLTR",
@@ -22,7 +28,13 @@
       "macd": { "dif": -0.62, "dea": -0.95, "histogram_tail": [-1.10, -0.85, -0.55, -0.33], "about_to_turn": true },
       "ma200_pass": true,
       "trend": { "direction": "up", "support_level": 164.50, "resistance_level": 178.00, "entry_zone": "extended (moderate risk)", "suggested_stop": 163.68 },
-      "news": { "summary": "Awarded a major new multi-year government AI contract.", "headline": "Palantir Wins Expanded Defense Department AI Contract Worth $400M", "category": "contract", "source": "benzinga" }
+      "spark": [138, 142, 140, 145, 150, 148, 153, 157, 155, 160, 163, 161, 165, 168, 166, 169, 171, 167, 168.9, 172.3],
+      "analyst": { "rating_label": "Strong Buy", "score": 1.6, "price_target": 210.00, "source": "finviz" },
+      "news": [
+        { "summary": "Awarded a major new multi-year government AI contract.", "headline": "Palantir Wins Expanded Defense Department AI Contract Worth $400M", "category": "contract", "source": "benzinga", "url": "https://www.benzinga.com/quote/PLTR" },
+        { "summary": "Commercial revenue growth accelerated for the third straight quarter.", "headline": "Palantir Commercial Segment Growth Accelerates Again", "category": "earnings", "source": "benzinga", "url": "https://www.benzinga.com/quote/PLTR" },
+        { "summary": "Analyst raised price target citing government pipeline strength.", "headline": "Palantir Price Target Raised to $210 on Government Pipeline", "category": "analyst_action", "source": "finviz", "url": "https://finviz.com/quote.ashx?t=PLTR" }
+      ]
     },
     {
       "symbol": "CVNA",
@@ -32,7 +44,12 @@
       "macd": { "dif": -1.05, "dea": -1.40, "histogram_tail": [-0.55, -0.48, -0.40, -0.35], "about_to_turn": true },
       "ma200_pass": true,
       "trend": { "direction": "up", "support_level": 236.00, "resistance_level": 260.00, "entry_zone": "extended (high risk, wait for pullback)", "suggested_stop": 234.82 },
-      "news": { "summary": "Major bank raised its price target after unit sales beat expectations.", "headline": "Carvana Price Target Raised to $290 After Blowout Unit Sales", "category": "analyst_action", "source": "finviz" }
+      "spark": [205, 210, 208, 215, 220, 218, 224, 228, 226, 232, 236, 233, 238, 242, 240, 244, 247, 243, 246.1, 251.4],
+      "analyst": { "rating_label": "Buy", "score": 2.0, "price_target": 290.00, "source": "finviz" },
+      "news": [
+        { "summary": "Major bank raised its price target after unit sales beat expectations.", "headline": "Carvana Price Target Raised to $290 After Blowout Unit Sales", "category": "analyst_action", "source": "finviz", "url": "https://finviz.com/quote.ashx?t=CVNA" },
+        { "summary": "Retail unit sales grew well ahead of analyst estimates for the quarter.", "headline": "Carvana Unit Sales Beat Estimates by Wide Margin", "category": "earnings", "source": "finviz", "url": "https://finviz.com/quote.ashx?t=CVNA" }
+      ]
     },
     {
       "symbol": "DUOL",
@@ -42,7 +59,9 @@
       "macd": { "dif": -0.85, "dea": -1.20, "histogram_tail": [-0.60, -0.50, -0.42, -0.35], "about_to_turn": true },
       "ma200_pass": true,
       "trend": { "direction": "up", "support_level": 375.00, "resistance_level": 400.00, "entry_zone": "near support (low risk)", "suggested_stop": 373.13 },
-      "news": null
+      "spark": [320, 328, 325, 333, 340, 337, 345, 352, 349, 357, 364, 360, 368, 374, 371, 377, 381, 378, 382.5, 388.1],
+      "analyst": { "rating_label": "Hold", "score": 2.8, "price_target": 400.00, "source": "finviz" },
+      "news": []
     }
   ],
   "all_results": [

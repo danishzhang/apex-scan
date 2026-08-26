@@ -19,14 +19,23 @@
     <span class="dot" id="statusDot"></span>
     <span id="statusText">Loading…</span>
   </div>
+  <div class="toolbar-spacer"></div>
+  <button class="btn-primary btn-run" id="runScanBtn">Run scan now</button>
   <button class="icon-btn" id="settingsBtn" title="Settings" aria-label="Open settings">⚙</button>
 </header>
 
+<div class="run-toast" id="runToast" hidden></div>
+
 <div class="sample-banner" id="sampleBanner" hidden>
-  Showing sample data — run the <code>premarket-gappers-scan</code> scheduled task (or "Run now") to populate live results.
+  Showing sample data — run the <code>premarket-gappers-scan</code> scheduled task (or "Run scan now" above) to populate live results.
 </div>
 
 <main>
+  <section class="news-rail" id="newsRail" hidden>
+    <span class="news-rail-label">Latest</span>
+    <div class="news-rail-track" id="newsRailTrack"></div>
+  </section>
+
   <section class="toolbar">
     <div class="toolbar-group">
       <label class="toolbar-label">Sort</label>
@@ -46,7 +55,11 @@
     </div>
     <label class="toolbar-check">
       <input type="checkbox" id="newsOnlyToggle">
-      With material news only
+      With news only
+    </label>
+    <label class="toolbar-check">
+      <input type="checkbox" id="watchlistOnlyToggle">
+      ★ Watchlist only
     </label>
     <div class="toolbar-spacer"></div>
     <div class="result-count" id="resultCount"></div>
@@ -65,9 +78,11 @@
 <aside class="chart-panel" id="chartPanel">
   <div class="chart-panel-header">
     <span id="chartPanelSymbol">—</span>
+    <button class="icon-btn watch-btn" id="panelWatchBtn" aria-label="Toggle watchlist">☆</button>
     <button class="icon-btn" id="closePanel" aria-label="Close chart">✕</button>
   </div>
   <div id="tv_chart_container" class="tv-container"></div>
+  <div class="panel-detail" id="panelDetail"></div>
 </aside>
 
 <!-- Settings drawer -->
