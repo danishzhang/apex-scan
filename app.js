@@ -223,37 +223,18 @@ function openChart(h) {
     container_id: "tv_chart_container",
   });
 
-  renderPanelDetail(h);
+  renderPanelTabs(h);
+  switchPanelTab("overview");
 }
 
-function renderPanelDetail(h) {
-  const news = newsList(h);
-  const detail = document.getElementById("panelDetail");
+const RATING_TONE = {
+  "Strong Buy": "buy", "Buy": "buy",
+  "Hold": "hold",
+  "Sell": "sell", "Strong Sell": "sell",
+};
 
-  const analystBlock = h.analyst ? `
-    <div class="detail-section">
-      <div class="detail-label">Analyst rating</div>
-      <div class="analyst-row">
-        <span class="analyst-rating">${h.analyst.rating_label}</span>
-        <span class="analyst-score">score ${h.analyst.score}</span>
-        ${h.analyst.price_target ? `<span class="analyst-target">Target $${fmt(h.analyst.price_target)}</span>` : ""}
-      </div>
-      <div class="detail-hint">Source: ${h.analyst.source}</div>
-    </div>` : "";
-
-  const newsBlock = `
-    <div class="detail-section">
-      <div class="detail-label">News (${news.length})</div>
-      ${news.length ? news.map(n => `
-        <a class="news-item" href="${n.url || "#"}" target="_blank" rel="noopener">
-          <span class="news-cat">${n.category.replace("_", " ")} · ${n.source}</span>
-          <span class="news-item-headline">${n.headline}</span>
-          <span class="news-item-summary">${n.summary}</span>
-        </a>
-      `).join("") : `<div class="detail-hint">No material news found for this name.</div>`}
-    </div>`;
-
-  const levelsBlock = `
+function renderPanelTabs(h) {
+  document.getElementById("tab-overview").innerHTML = `
     <div class="detail-section">
       <div class="detail-label">Levels</div>
       <div class="card-levels wide">
@@ -264,9 +245,121 @@ function renderPanelDetail(h) {
         <div>MACD DIF <span>${fmt(h.macd.dif)}</span></div>
         <div>MACD DEA <span>${fmt(h.macd.dea)}</span></div>
       </div>
-    </div>`;
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Setup</div>
+      <div class="detail-hint">Premarket $${fmt(h.premarket_price)}, prior close $${fmt(h.prev_close)} (${gapPct(h) >= 0 ? "+" : ""}${gapPct(h).toFixed(1)}%). Entry zone: ${h.trend.entry_zone || "unknown"}.</div>
+    </div>
+  `;
 
-  detail.innerHTML = levelsBlock + analystBlock + newsBlock;
+  document.getElementById("tab-analysis").innerHTML = renderAnalysisTab(h);
+  document.getElementById("tab-news").innerHTML = renderNewsTab(h);
+  document.getElementById("tab-financials").innerHTML = renderFinancialsTab(h);
+}
+
+function renderAnalysisTab(h) {
+  const a = h.analyst;
+  if (!a) return `<div class="detail-section"><div class="detail-hint">No analyst coverage found for this name.</div></div>`;
+
+  const tone = RATING_TONE[a.rating_label] || "hold";
+  const bd = a.breakdown;
+  const words = a.rating_label.split(" ");
+
+  const gaugeBlock = `
+    <div class="rating-gauge tone-${tone}">
+      ${words.map(w => `<span>${w}</span>`).join("")}
+    </div>
+    ${a.analyst_count ? `<div class="detail-hint center">Based on ${a.analyst_count} analysts</div>` : ""}
+  `;
+
+  const barsBlock = bd ? `
+    <div class="rating-bars">
+      <div class="rating-bar-row"><span class="rating-bar-label buy">Buy</span><div class="rating-bar-track"><div class="rating-bar-fill buy" style="width:${bd.buy_pct}%"></div></div><span class="rating-bar-pct">${bd.buy_pct}%</span></div>
+      <div class="rating-bar-row"><span class="rating-bar-label hold">Hold</span><div class="rating-bar-track"><div class="rating-bar-fill hold" style="width:${bd.hold_pct}%"></div></div><span class="rating-bar-pct">${bd.hold_pct}%</span></div>
+      <div class="rating-bar-row"><span class="rating-bar-label sell">Sell</span><div class="rating-bar-track"><div class="rating-bar-fill sell" style="width:${bd.sell_pct}%"></div></div><span class="rating-bar-pct">${bd.sell_pct}%</span></div>
+    </div>
+  ` : "";
+
+  const pt = a.price_target;
+  const targetBlock = pt && pt.avg ? `
+    <div class="detail-section">
+      <div class="detail-label">Price target (12mo)</div>
+      <div class="target-avg">$${fmt(pt.avg)} <span class="target-avg-sub">average target</span></div>
+      ${renderTargetRange(pt)}
+    </div>
+  ` : "";
+
+  return `
+    <div class="detail-section">
+      <div class="detail-label">Analyst rating</div>
+      ${gaugeBlock}
+      ${barsBlock}
+    </div>
+    ${targetBlock}
+    <div class="detail-hint">Source: ${a.source}</div>
+  `;
+}
+
+function renderTargetRange(pt) {
+  const low = pt.low ?? pt.avg * 0.85;
+  const high = pt.high ?? pt.avg * 1.15;
+  const cur = pt.current ?? null;
+  const span = high - low || 1;
+  const pct = (v) => Math.max(0, Math.min(100, ((v - low) / span) * 100));
+
+  return `
+    <div class="target-range">
+      <div class="target-track">
+        <div class="target-marker avg" style="left:${pct(pt.avg)}%"></div>
+        ${cur !== null ? `<div class="target-marker current" style="left:${pct(cur)}%"></div>` : ""}
+      </div>
+      <div class="target-range-labels">
+        <span>Min $${fmt(low)}</span>
+        ${cur !== null ? `<span class="current-label">Current $${fmt(cur)}</span>` : ""}
+        <span>Max $${fmt(high)}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderNewsTab(h) {
+  const news = newsList(h);
+  return `
+    <div class="detail-section">
+      <div class="detail-label">News (${news.length})</div>
+      ${news.length ? news.map(n => `
+        <a class="news-item" href="${n.url || "#"}" target="_blank" rel="noopener">
+          <span class="news-cat">${n.category.replace("_", " ")} · ${n.source}</span>
+          <span class="news-item-headline">${n.headline}</span>
+          <span class="news-item-summary">${n.summary}</span>
+        </a>
+      `).join("") : `<div class="detail-hint">No material news found for this name.</div>`}
+    </div>
+  `;
+}
+
+function renderFinancialsTab(h) {
+  const f = h.fundamentals;
+  if (!f) return `<div class="detail-section"><div class="detail-hint">No fundamentals data available for this name.</div></div>`;
+  return `
+    <div class="detail-section">
+      <div class="detail-label">Fundamentals</div>
+      <div class="card-levels wide">
+        <div>Market cap <span>${f.market_cap ?? "—"}</span></div>
+        <div>P/E (ttm) <span>${f.pe_ttm ?? "—"}</span></div>
+        <div>EPS (ttm) <span>${f.eps_ttm ?? "—"}</span></div>
+        <div>Sales (ttm) <span>${f.sales_ttm ?? "—"}</span></div>
+        <div>Profit margin <span>${f.profit_margin ?? "—"}</span></div>
+        <div>Shares out <span>${f.shares_outstanding ?? "—"}</span></div>
+      </div>
+      <div class="detail-hint">Source: ${f.source}</div>
+    </div>
+  `;
+}
+
+function switchPanelTab(tab) {
+  document.querySelectorAll(".panel-tab").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
+  document.querySelectorAll(".panel-tab-content").forEach(c => c.hidden = c.id !== "tab-" + tab);
 }
 
 function updateWatchBtn() {
@@ -341,6 +434,10 @@ document.getElementById("panelWatchBtn").addEventListener("click", () => {
   if (currentPanelHit) { toggleWatch(currentPanelHit.symbol); updateWatchBtn(); }
 });
 document.getElementById("runScanBtn").addEventListener("click", requestScan);
+document.getElementById("panelTabs").addEventListener("click", (e) => {
+  const btn = e.target.closest(".panel-tab");
+  if (btn) switchPanelTab(btn.dataset.tab);
+});
 
 document.getElementById("sortSelect").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
 document.getElementById("riskFilter").addEventListener("change", (e) => { state.riskFilter = e.target.value; render(); });

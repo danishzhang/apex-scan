@@ -13,7 +13,13 @@
       "ma200_pass": true,
       "trend": { "direction": "up", "support_level": 14.10, "resistance_level": 15.60, "entry_zone": "near support (low risk)", "suggested_stop": 14.03 },
       "spark": [11.9, 12.3, 12.1, 12.6, 13.0, 12.8, 13.2, 13.5, 13.3, 13.7, 14.0, 13.8, 14.1, 14.3, 14.2, 14.4, 14.5, 14.3, 14.55, 14.82],
-      "analyst": { "rating_label": "Buy", "score": 2.1, "price_target": 17.50, "source": "finviz" },
+      "analyst": {
+        "rating_label": "Buy", "score": 2.1, "analyst_count": 18,
+        "breakdown": { "buy_pct": 72, "hold_pct": 22, "sell_pct": 6 },
+        "price_target": { "avg": 17.50, "low": 13.00, "high": 21.00, "current": 14.82 },
+        "source": "yahoo"
+      },
+      "fundamentals": { "market_cap": "16.2B", "pe_ttm": "21.4", "eps_ttm": "0.69", "sales_ttm": "2.86B", "profit_margin": "12.1%", "shares_outstanding": "1.05B", "source": "finviz" },
       "news": [
         { "summary": "Beat Q2 earnings and raised full-year member growth guidance.", "headline": "SoFi Technologies Tops Estimates, Lifts FY Guidance on Record Member Growth", "category": "earnings", "source": "benzinga", "url": "https://www.benzinga.com/quote/SOFI" },
         { "summary": "Lending segment originations hit a new company record in the quarter.", "headline": "SoFi Lending Originations Set Fresh Record in Q2", "category": "earnings", "source": "benzinga", "url": "https://www.benzinga.com/quote/SOFI" },
@@ -29,7 +35,13 @@
       "ma200_pass": true,
       "trend": { "direction": "up", "support_level": 164.50, "resistance_level": 178.00, "entry_zone": "extended (moderate risk)", "suggested_stop": 163.68 },
       "spark": [138, 142, 140, 145, 150, 148, 153, 157, 155, 160, 163, 161, 165, 168, 166, 169, 171, 167, 168.9, 172.3],
-      "analyst": { "rating_label": "Strong Buy", "score": 1.6, "price_target": 210.00, "source": "finviz" },
+      "analyst": {
+        "rating_label": "Strong Buy", "score": 1.6, "analyst_count": 29,
+        "breakdown": { "buy_pct": 100, "hold_pct": 0, "sell_pct": 0 },
+        "price_target": { "avg": 210.00, "low": 140.00, "high": 250.00, "current": 172.30 },
+        "source": "yahoo"
+      },
+      "fundamentals": { "market_cap": "402B", "pe_ttm": "312.5", "eps_ttm": "0.55", "sales_ttm": "3.12B", "profit_margin": "22.4%", "shares_outstanding": "2.34B", "source": "finviz" },
       "news": [
         { "summary": "Awarded a major new multi-year government AI contract.", "headline": "Palantir Wins Expanded Defense Department AI Contract Worth $400M", "category": "contract", "source": "benzinga", "url": "https://www.benzinga.com/quote/PLTR" },
         { "summary": "Commercial revenue growth accelerated for the third straight quarter.", "headline": "Palantir Commercial Segment Growth Accelerates Again", "category": "earnings", "source": "benzinga", "url": "https://www.benzinga.com/quote/PLTR" },
@@ -45,7 +57,13 @@
       "ma200_pass": true,
       "trend": { "direction": "up", "support_level": 236.00, "resistance_level": 260.00, "entry_zone": "extended (high risk, wait for pullback)", "suggested_stop": 234.82 },
       "spark": [205, 210, 208, 215, 220, 218, 224, 228, 226, 232, 236, 233, 238, 242, 240, 244, 247, 243, 246.1, 251.4],
-      "analyst": { "rating_label": "Buy", "score": 2.0, "price_target": 290.00, "source": "finviz" },
+      "analyst": {
+        "rating_label": "Buy", "score": 2.0, "analyst_count": 21,
+        "breakdown": { "buy_pct": 62, "hold_pct": 33, "sell_pct": 5 },
+        "price_target": { "avg": 290.00, "low": 180.00, "high": 380.00, "current": 251.40 },
+        "source": "yahoo"
+      },
+      "fundamentals": { "market_cap": "54.1B", "pe_ttm": "38.7", "eps_ttm": "6.49", "sales_ttm": "16.9B", "profit_margin": "5.8%", "shares_outstanding": "215M", "source": "finviz" },
       "news": [
         { "summary": "Major bank raised its price target after unit sales beat expectations.", "headline": "Carvana Price Target Raised to $290 After Blowout Unit Sales", "category": "analyst_action", "source": "finviz", "url": "https://finviz.com/quote.ashx?t=CVNA" },
         { "summary": "Retail unit sales grew well ahead of analyst estimates for the quarter.", "headline": "Carvana Unit Sales Beat Estimates by Wide Margin", "category": "earnings", "source": "finviz", "url": "https://finviz.com/quote.ashx?t=CVNA" }
@@ -60,7 +78,13 @@
       "ma200_pass": true,
       "trend": { "direction": "up", "support_level": 375.00, "resistance_level": 400.00, "entry_zone": "near support (low risk)", "suggested_stop": 373.13 },
       "spark": [320, 328, 325, 333, 340, 337, 345, 352, 349, 357, 364, 360, 368, 374, 371, 377, 381, 378, 382.5, 388.1],
-      "analyst": { "rating_label": "Hold", "score": 2.8, "price_target": 400.00, "source": "finviz" },
+      "analyst": {
+        "rating_label": "Hold", "score": 2.8, "analyst_count": 12,
+        "breakdown": { "buy_pct": 33, "hold_pct": 50, "sell_pct": 17 },
+        "price_target": { "avg": 400.00, "low": 310.00, "high": 460.00, "current": 388.10 },
+        "source": "yahoo"
+      },
+      "fundamentals": { "market_cap": "16.8B", "pe_ttm": "142.0", "eps_ttm": "2.73", "sales_ttm": "780M", "profit_margin": "14.9%", "shares_outstanding": "43.3M", "source": "finviz" },
       "news": []
     }
   ],

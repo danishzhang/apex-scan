@@ -293,7 +293,7 @@ select:focus, input:focus { outline: none; border-color: var(--accent); }
 .badge.analyst { color: #4fc3f7; border-color: #4fc3f740; background: #4fc3f712; }
 
 /* Panel detail sections */
-.panel-detail { padding: 18px 20px 28px; overflow-y: auto; border-top: 1px solid var(--border); }
+.panel-detail { flex: 1; min-height: 0; padding: 18px 20px 28px; overflow-y: auto; border-top: 1px solid var(--border); }
 .detail-section { margin-bottom: 20px; }
 .detail-label {
   font-size: 10.5px; text-transform: uppercase; letter-spacing: .07em;
@@ -318,6 +318,60 @@ select:focus, input:focus { outline: none; border-color: var(--accent); }
 .news-item:hover .news-item-headline { color: var(--accent); }
 .news-item-headline { display: block; font-size: 13px; font-weight: 600; margin: 3px 0 4px; }
 .news-item-summary { display: block; font-size: 12px; color: var(--text-1); line-height: 1.4; }
+
+/* Panel tabs */
+.panel-tabs {
+  display: flex; gap: 2px; padding: 0 20px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-1);
+}
+.panel-tab {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-2); font-size: 12.5px; font-weight: 600;
+  padding: 12px 14px; border-bottom: 2px solid transparent;
+}
+.panel-tab:hover { color: var(--text-0); }
+.panel-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.panel-detail { border-top: none; }
+.detail-hint.center { text-align: center; }
+
+/* Futubull-style rating gauge */
+.rating-gauge {
+  width: 108px; height: 108px; margin: 4px auto 10px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  font-weight: 700; font-size: 16px; line-height: 1.25; text-align: center;
+  border: 6px solid;
+}
+.rating-gauge.tone-buy { background: #3ddc9714; border-color: var(--green); color: var(--green); }
+.rating-gauge.tone-hold { background: #f5b94214; border-color: var(--amber); color: var(--amber); }
+.rating-gauge.tone-sell { background: #ff5d6c14; border-color: var(--red); color: var(--red); }
+
+.rating-bars { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+.rating-bar-row { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+.rating-bar-label { width: 34px; flex-shrink: 0; font-weight: 600; }
+.rating-bar-label.buy { color: var(--green); }
+.rating-bar-label.hold { color: var(--amber); }
+.rating-bar-label.sell { color: var(--red); }
+.rating-bar-track { flex: 1; height: 6px; border-radius: 999px; background: var(--bg-3); overflow: hidden; }
+.rating-bar-fill { height: 100%; border-radius: 999px; }
+.rating-bar-fill.buy { background: var(--green); }
+.rating-bar-fill.hold { background: var(--amber); }
+.rating-bar-fill.sell { background: var(--red); }
+.rating-bar-pct { width: 34px; text-align: right; font-family: var(--font-mono); color: var(--text-1); flex-shrink: 0; }
+
+.target-avg { font-family: var(--font-mono); font-size: 20px; font-weight: 700; margin-bottom: 14px; }
+.target-avg-sub { font-family: var(--font-body); font-size: 11.5px; font-weight: 400; color: var(--text-2); margin-left: 6px; }
+
+.target-range { margin-top: 4px; }
+.target-track {
+  position: relative; height: 6px; border-radius: 999px;
+  background: linear-gradient(90deg, var(--red), var(--amber), var(--green));
+  margin-bottom: 8px;
+}
+.target-marker { position: absolute; top: -4px; width: 2px; height: 14px; background: var(--text-0); transform: translateX(-1px); }
+.target-marker.current { background: var(--accent); width: 3px; box-shadow: 0 0 6px var(--accent); }
+.target-range-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-2); font-family: var(--font-mono); }
+.target-range-labels .current-label { color: var(--accent); }
 
 @media (max-width: 700px) {
   .topbar { padding: 12px 16px; }

@@ -82,7 +82,18 @@
     <button class="icon-btn" id="closePanel" aria-label="Close chart">✕</button>
   </div>
   <div id="tv_chart_container" class="tv-container"></div>
-  <div class="panel-detail" id="panelDetail"></div>
+  <nav class="panel-tabs" id="panelTabs">
+    <button class="panel-tab active" data-tab="overview">Overview</button>
+    <button class="panel-tab" data-tab="analysis">Analysis</button>
+    <button class="panel-tab" data-tab="news">News</button>
+    <button class="panel-tab" data-tab="financials">Financials</button>
+  </nav>
+  <div class="panel-detail" id="panelDetail">
+    <div class="panel-tab-content" id="tab-overview"></div>
+    <div class="panel-tab-content" id="tab-analysis" hidden></div>
+    <div class="panel-tab-content" id="tab-news" hidden></div>
+    <div class="panel-tab-content" id="tab-financials" hidden></div>
+  </div>
 </aside>
 
 <!-- Settings drawer -->
