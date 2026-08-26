@@ -257,46 +257,85 @@ function renderPanelTabs(h) {
   document.getElementById("tab-financials").innerHTML = renderFinancialsTab(h);
 }
 
+const TONE_COLOR = { buy: "#3ddc97", hold: "#f5b942", sell: "#ff5d6c" };
+
 function renderAnalysisTab(h) {
   const a = h.analyst;
   if (!a) return `<div class="detail-section"><div class="detail-hint">No analyst coverage found for this name.</div></div>`;
 
   const tone = RATING_TONE[a.rating_label] || "hold";
   const bd = a.breakdown;
-  const words = a.rating_label.split(" ");
 
-  const gaugeBlock = `
-    <div class="rating-gauge tone-${tone}">
-      ${words.map(w => `<span>${w}</span>`).join("")}
+  const ratingBlock = `
+    <div class="detail-section">
+      <div class="detail-label">Analyst rating</div>
+      <div class="rating-head">
+        ${ratingDonut(a.rating_label, tone, bd)}
+        <div class="rating-meta">
+          ${a.analyst_count ? `<div class="rating-count">Based on <b>${a.analyst_count}</b> analysts</div>` : ""}
+          ${bd ? `
+            <div class="rating-stack">
+              <div class="seg-buy" style="width:${bd.buy_pct}%"></div>
+              <div class="seg-hold" style="width:${bd.hold_pct}%"></div>
+              <div class="seg-sell" style="width:${bd.sell_pct}%"></div>
+            </div>
+            <div class="rating-legend">
+              <span class="rating-legend-item"><span class="rating-legend-dot buy"></span>Buy ${bd.buy_pct}%</span>
+              <span class="rating-legend-item"><span class="rating-legend-dot hold"></span>Hold ${bd.hold_pct}%</span>
+              <span class="rating-legend-item"><span class="rating-legend-dot sell"></span>Sell ${bd.sell_pct}%</span>
+            </div>
+          ` : ""}
+        </div>
+      </div>
     </div>
-    ${a.analyst_count ? `<div class="detail-hint center">Based on ${a.analyst_count} analysts</div>` : ""}
   `;
-
-  const barsBlock = bd ? `
-    <div class="rating-bars">
-      <div class="rating-bar-row"><span class="rating-bar-label buy">Buy</span><div class="rating-bar-track"><div class="rating-bar-fill buy" style="width:${bd.buy_pct}%"></div></div><span class="rating-bar-pct">${bd.buy_pct}%</span></div>
-      <div class="rating-bar-row"><span class="rating-bar-label hold">Hold</span><div class="rating-bar-track"><div class="rating-bar-fill hold" style="width:${bd.hold_pct}%"></div></div><span class="rating-bar-pct">${bd.hold_pct}%</span></div>
-      <div class="rating-bar-row"><span class="rating-bar-label sell">Sell</span><div class="rating-bar-track"><div class="rating-bar-fill sell" style="width:${bd.sell_pct}%"></div></div><span class="rating-bar-pct">${bd.sell_pct}%</span></div>
-    </div>
-  ` : "";
 
   const pt = a.price_target;
   const targetBlock = pt && pt.avg ? `
     <div class="detail-section">
-      <div class="detail-label">Price target (12mo)</div>
-      <div class="target-avg">$${fmt(pt.avg)} <span class="target-avg-sub">average target</span></div>
+      <div class="detail-label">Price target · next 12 months</div>
+      ${renderTargetHeadline(pt)}
       ${renderTargetRange(pt)}
     </div>
   ` : "";
 
+  return ratingBlock + targetBlock + `<div class="detail-hint">Source: ${a.source}</div>`;
+}
+
+function ratingDonut(label, tone, bd) {
+  const r = 40, cx = 50, cy = 50, circ = 2 * Math.PI * r, sw = 10;
+  const segs = bd
+    ? [["buy", bd.buy_pct], ["hold", bd.hold_pct], ["sell", bd.sell_pct]]
+    : [[tone, 100]];
+  let offset = 0;
+  const arcs = segs.filter(([, pct]) => pct > 0).map(([key, pct]) => {
+    const len = (pct / 100) * circ;
+    const dash = `${len} ${circ - len}`;
+    const el = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${TONE_COLOR[key]}" stroke-width="${sw}" stroke-dasharray="${dash}" stroke-dashoffset="${-offset}" stroke-linecap="butt"/>`;
+    offset += len;
+    return el;
+  }).join("");
+
+  const words = label.split(" ");
+  const lineY = words.length > 1 ? [44, 58] : [50];
+
   return `
-    <div class="detail-section">
-      <div class="detail-label">Analyst rating</div>
-      ${gaugeBlock}
-      ${barsBlock}
+    <svg class="rating-donut" width="112" height="112" viewBox="0 0 100 100">
+      <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--bg-3)" stroke-width="${sw}"/>
+      <g transform="rotate(-90 ${cx} ${cy})">${arcs}</g>
+      ${words.map((w, i) => `<text x="50" y="${lineY[i]}" class="rating-donut-label" fill="${TONE_COLOR[tone]}">${w}</text>`).join("")}
+    </svg>
+  `;
+}
+
+function renderTargetHeadline(pt) {
+  const upside = pt.current ? ((pt.avg - pt.current) / pt.current) * 100 : null;
+  return `
+    <div class="target-headline">
+      <span class="target-avg">$${fmt(pt.avg)}</span>
+      <span class="target-avg-sub">average target</span>
+      ${upside !== null ? `<span class="target-upside ${upside >= 0 ? "pos" : "neg"}">${upside >= 0 ? "+" : ""}${upside.toFixed(1)}%</span>` : ""}
     </div>
-    ${targetBlock}
-    <div class="detail-hint">Source: ${a.source}</div>
   `;
 }
 
@@ -307,16 +346,21 @@ function renderTargetRange(pt) {
   const span = high - low || 1;
   const pct = (v) => Math.max(0, Math.min(100, ((v - low) / span) * 100));
 
+  const avgPct = pct(pt.avg);
+  const curPct = cur !== null ? pct(cur) : null;
+  const closeTogether = curPct !== null && Math.abs(avgPct - curPct) < 14;
+
   return `
     <div class="target-range">
       <div class="target-track">
-        <div class="target-marker avg" style="left:${pct(pt.avg)}%"></div>
-        ${cur !== null ? `<div class="target-marker current" style="left:${pct(cur)}%"></div>` : ""}
+        <div class="target-tag" style="left:${avgPct}%${closeTogether ? ";top:-46px" : ""}">Avg $${fmt(pt.avg)}</div>
+        ${curPct !== null ? `<div class="target-tag current" style="left:${curPct}%">Now $${fmt(cur)}</div>` : ""}
+        <div class="target-marker" style="left:${avgPct}%"></div>
+        ${curPct !== null ? `<div class="target-marker current" style="left:${curPct}%"></div>` : ""}
       </div>
       <div class="target-range-labels">
-        <span>Min $${fmt(low)}</span>
-        ${cur !== null ? `<span class="current-label">Current $${fmt(cur)}</span>` : ""}
-        <span>Max $${fmt(high)}</span>
+        <span>Low $${fmt(low)}</span>
+        <span>High $${fmt(high)}</span>
       </div>
     </div>
   `;
@@ -327,13 +371,18 @@ function renderNewsTab(h) {
   return `
     <div class="detail-section">
       <div class="detail-label">News (${news.length})</div>
+      <div class="news-feed">
       ${news.length ? news.map(n => `
         <a class="news-item" href="${n.url || "#"}" target="_blank" rel="noopener">
-          <span class="news-cat">${n.category.replace("_", " ")} · ${n.source}</span>
-          <span class="news-item-headline">${n.headline}</span>
-          <span class="news-item-summary">${n.summary}</span>
+          <span class="news-src-badge ${n.source}">${n.source.charAt(0).toUpperCase()}</span>
+          <span class="news-item-body">
+            <span class="news-cat">${n.category.replace(/_/g, " ")} · ${n.source}</span>
+            <span class="news-item-headline">${n.headline}</span>
+            <span class="news-item-summary">${n.summary}</span>
+          </span>
         </a>
       `).join("") : `<div class="detail-hint">No material news found for this name.</div>`}
+      </div>
     </div>
   `;
 }
@@ -341,18 +390,17 @@ function renderNewsTab(h) {
 function renderFinancialsTab(h) {
   const f = h.fundamentals;
   if (!f) return `<div class="detail-section"><div class="detail-hint">No fundamentals data available for this name.</div></div>`;
+  const rows = [
+    ["Market cap", f.market_cap], ["P/E (ttm)", f.pe_ttm], ["EPS (ttm)", f.eps_ttm],
+    ["Sales (ttm)", f.sales_ttm], ["Profit margin", f.profit_margin], ["Shares out", f.shares_outstanding],
+  ];
   return `
     <div class="detail-section">
       <div class="detail-label">Fundamentals</div>
-      <div class="card-levels wide">
-        <div>Market cap <span>${f.market_cap ?? "—"}</span></div>
-        <div>P/E (ttm) <span>${f.pe_ttm ?? "—"}</span></div>
-        <div>EPS (ttm) <span>${f.eps_ttm ?? "—"}</span></div>
-        <div>Sales (ttm) <span>${f.sales_ttm ?? "—"}</span></div>
-        <div>Profit margin <span>${f.profit_margin ?? "—"}</span></div>
-        <div>Shares out <span>${f.shares_outstanding ?? "—"}</span></div>
+      <div class="fin-grid">
+        ${rows.map(([label, val]) => `<div class="fin-row"><span class="fin-label">${label}</span><span class="fin-value">${val ?? "—"}</span></div>`).join("")}
       </div>
-      <div class="detail-hint">Source: ${f.source}</div>
+      <div class="detail-hint" style="margin-top:10px">Source: ${f.source}</div>
     </div>
   `;
 }
