@@ -233,6 +233,14 @@ const RATING_TONE = {
   "Sell": "sell", "Strong Sell": "sell",
 };
 
+function toneFromLabel(label) {
+  if (RATING_TONE[label]) return RATING_TONE[label];
+  const l = (label || "").toLowerCase();
+  if (/buy|outperform|overweight|positive/.test(l)) return "buy";
+  if (/sell|underperform|underweight|negative/.test(l)) return "sell";
+  return "hold";
+}
+
 function renderPanelTabs(h) {
   document.getElementById("tab-overview").innerHTML = `
     <div class="detail-section">
@@ -299,7 +307,43 @@ function renderAnalysisTab(h) {
     </div>
   ` : "";
 
-  return ratingBlock + targetBlock + `<div class="detail-hint">Source: ${a.source}</div>`;
+  const actionsBlock = renderAnalystActions(a.recent_ratings);
+
+  return ratingBlock + targetBlock + actionsBlock + `<div class="detail-hint">Source: ${a.source}</div>`;
+}
+
+function renderAnalystActions(ratings) {
+  if (!ratings || !ratings.length) return "";
+  return `
+    <div class="detail-section">
+      <div class="detail-label">Recent analyst actions</div>
+      <div class="analyst-actions">
+        ${ratings.map(r => {
+          const tone = toneFromLabel(r.rating_label);
+          return `
+            <div class="aa-row">
+              <div class="aa-top">
+                <span class="aa-dot" style="background:${TONE_COLOR[tone]}"></span>
+                <span class="aa-firm">${r.firm}</span>
+                <span class="aa-rating" style="color:${TONE_COLOR[tone]}">${r.rating_label}</span>
+              </div>
+              <div class="aa-bottom">
+                <span>${r.action || "Rated"}${r.price_target ? " · target " : ""}<span class="aa-target">${r.price_target ? "$" + fmt(r.price_target) : ""}</span></span>
+                <span>${formatShortDate(r.date)}</span>
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function formatShortDate(iso) {
+  if (!iso) return "—";
+  const d = new Date(iso);
+  if (isNaN(d)) return iso;
+  return d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
 
 function ratingDonut(label, tone, bd) {
