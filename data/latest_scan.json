@@ -1,0 +1,56 @@
+{
+  "status": "ok",
+  "sample": true,
+  "scanned_at": "2026-08-26T11:08:00Z",
+  "candidates_checked": 25,
+  "hits": [
+    {
+      "symbol": "SOFI",
+      "premarket_price": 14.82,
+      "prev_close": 14.55,
+      "sma200": 12.40,
+      "macd": { "dif": -0.18, "dea": -0.27, "histogram_tail": [-0.31, -0.24, -0.15, -0.09], "about_to_turn": true },
+      "ma200_pass": true,
+      "trend": { "direction": "up", "support_level": 14.10, "resistance_level": 15.60, "entry_zone": "near support (low risk)", "suggested_stop": 14.03 },
+      "news": { "summary": "Beat Q2 earnings and raised full-year member growth guidance.", "headline": "SoFi Technologies Tops Estimates, Lifts FY Guidance on Record Member Growth", "category": "earnings", "source": "benzinga" }
+    },
+    {
+      "symbol": "PLTR",
+      "premarket_price": 172.30,
+      "prev_close": 168.90,
+      "sma200": 145.20,
+      "macd": { "dif": -0.62, "dea": -0.95, "histogram_tail": [-1.10, -0.85, -0.55, -0.33], "about_to_turn": true },
+      "ma200_pass": true,
+      "trend": { "direction": "up", "support_level": 164.50, "resistance_level": 178.00, "entry_zone": "extended (moderate risk)", "suggested_stop": 163.68 },
+      "news": { "summary": "Awarded a major new multi-year government AI contract.", "headline": "Palantir Wins Expanded Defense Department AI Contract Worth $400M", "category": "contract", "source": "benzinga" }
+    },
+    {
+      "symbol": "CVNA",
+      "premarket_price": 251.40,
+      "prev_close": 246.10,
+      "sma200": 210.75,
+      "macd": { "dif": -1.05, "dea": -1.40, "histogram_tail": [-0.55, -0.48, -0.40, -0.35], "about_to_turn": true },
+      "ma200_pass": true,
+      "trend": { "direction": "up", "support_level": 236.00, "resistance_level": 260.00, "entry_zone": "extended (high risk, wait for pullback)", "suggested_stop": 234.82 },
+      "news": { "summary": "Major bank raised its price target after unit sales beat expectations.", "headline": "Carvana Price Target Raised to $290 After Blowout Unit Sales", "category": "analyst_action", "source": "finviz" }
+    },
+    {
+      "symbol": "DUOL",
+      "premarket_price": 388.10,
+      "prev_close": 382.50,
+      "sma200": 340.00,
+      "macd": { "dif": -0.85, "dea": -1.20, "histogram_tail": [-0.60, -0.50, -0.42, -0.35], "about_to_turn": true },
+      "ma200_pass": true,
+      "trend": { "direction": "up", "support_level": 375.00, "resistance_level": 400.00, "entry_zone": "near support (low risk)", "suggested_stop": 373.13 },
+      "news": null
+    }
+  ],
+  "all_results": [
+    { "symbol": "SOFI", "macd_setup_pass": true, "ma200_pass": true, "trend_pass": true, "reason": "hit" },
+    { "symbol": "PLTR", "macd_setup_pass": true, "ma200_pass": true, "trend_pass": true, "reason": "hit" },
+    { "symbol": "CVNA", "macd_setup_pass": true, "ma200_pass": true, "trend_pass": true, "reason": "hit" },
+    { "symbol": "DUOL", "macd_setup_pass": true, "ma200_pass": true, "trend_pass": true, "reason": "hit" },
+    { "symbol": "RIVN", "macd_setup_pass": false, "ma200_pass": false, "trend_pass": null, "reason": "macd_setup_failed" },
+    { "symbol": "AMD", "macd_setup_pass": true, "ma200_pass": true, "trend_pass": false, "reason": "trend_filter_failed" }
+  ]
+}

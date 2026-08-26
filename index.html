@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APEX SCAN — Premarket Trend Scanner</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="scanlines"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">◈</span>
+    <span class="brand-name">APEX<span class="brand-accent">SCAN</span></span>
+  </div>
+  <div class="topbar-status" id="scanStatus">
+    <span class="dot" id="statusDot"></span>
+    <span id="statusText">Loading…</span>
+  </div>
+  <button class="icon-btn" id="settingsBtn" title="Settings" aria-label="Open settings">⚙</button>
+</header>
+
+<div class="sample-banner" id="sampleBanner" hidden>
+  Showing sample data — run the <code>premarket-gappers-scan</code> scheduled task (or "Run now") to populate live results.
+</div>
+
+<main>
+  <section class="toolbar">
+    <div class="toolbar-group">
+      <label class="toolbar-label">Sort</label>
+      <select id="sortSelect">
+        <option value="risk">Entry risk (low → high)</option>
+        <option value="symbol">Symbol (A → Z)</option>
+        <option value="gap">Premarket gap vs prior close</option>
+      </select>
+    </div>
+    <div class="toolbar-group">
+      <label class="toolbar-label">Entry zone</label>
+      <select id="riskFilter">
+        <option value="all">All</option>
+        <option value="low">Near support only</option>
+        <option value="moderate">Near support + moderate</option>
+      </select>
+    </div>
+    <label class="toolbar-check">
+      <input type="checkbox" id="newsOnlyToggle">
+      With material news only
+    </label>
+    <div class="toolbar-spacer"></div>
+    <div class="result-count" id="resultCount"></div>
+  </section>
+
+  <section id="cardGrid" class="card-grid"></section>
+
+  <section id="emptyState" class="empty-state" hidden>
+    <p>No candidates cleared every filter on this scan.</p>
+    <p class="empty-sub">That's normal — this setup (MACD reversal + MA200 + confirmed uptrend) is meant to be rare.</p>
+  </section>
+</main>
+
+<!-- Chart side panel -->
+<div class="panel-overlay" id="panelOverlay"></div>
+<aside class="chart-panel" id="chartPanel">
+  <div class="chart-panel-header">
+    <span id="chartPanelSymbol">—</span>
+    <button class="icon-btn" id="closePanel" aria-label="Close chart">✕</button>
+  </div>
+  <div id="tv_chart_container" class="tv-container"></div>
+</aside>
+
+<!-- Settings drawer -->
+<div class="panel-overlay" id="settingsOverlay"></div>
+<aside class="settings-panel" id="settingsPanel">
+  <div class="chart-panel-header">
+    <span>Settings</span>
+    <button class="icon-btn" id="closeSettings" aria-label="Close settings">✕</button>
+  </div>
+  <div class="settings-body">
+    <div class="settings-field">
+      <label>Accent color</label>
+      <div class="swatches" id="accentSwatches">
+        <button data-accent="#3ddc97" style="--sw:#3ddc97" class="swatch active"></button>
+        <button data-accent="#4fc3f7" style="--sw:#4fc3f7" class="swatch"></button>
+        <button data-accent="#c084fc" style="--sw:#c084fc" class="swatch"></button>
+        <button data-accent="#fb923c" style="--sw:#fb923c" class="swatch"></button>
+      </div>
+    </div>
+    <div class="settings-field">
+      <label for="autoRefreshInput">Auto-refresh data every (seconds, 0 = off)</label>
+      <input type="number" id="autoRefreshInput" min="0" step="15" value="60">
+    </div>
+    <div class="settings-field">
+      <label>Data source</label>
+      <div class="settings-hint">Reads <code>data/latest_scan.json</code>, written by the local <code>premarket-gappers-scan</code> scheduled task (7am ET weekdays). This page never fetches the market itself.</div>
+    </div>
+    <button class="btn-primary" id="reloadDataBtn">Reload data now</button>
+    <div class="settings-hint" id="lastLoadedHint"></div>
+  </div>
+</aside>
+
+<script src="https://s3.tradingview.com/tv.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
