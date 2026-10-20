@@ -1,4 +1,5 @@
 {
-  "status": "pending",
-  "requested_at": "2026-10-20T15:32:17.282Z"
+  "status": "idle",
+  "requested_at": null,
+  "processed_at": "2026-10-20T16:42:51Z"
 }
