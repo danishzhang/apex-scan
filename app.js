@@ -122,6 +122,7 @@ function humanizeError(code) {
   return {
     tv_not_connected: "TradingView Desktop isn't connected — launch it, then run the scan again.",
     not_a_trading_day: "Markets are closed today — no scan was run.",
+    scan_in_progress: "A fresh scan is running — results will appear here when it finishes.",
   }[code] || ("Scan error: " + code);
 }
 
