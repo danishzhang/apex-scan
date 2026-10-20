@@ -58,7 +58,7 @@ module.exports = async function handler(req, res) {
 
     if (!putRes.ok) {
       const detail = await putRes.text();
-      res.status(502).json({ error: "github_write_failed", detail });
+      res.status(502).json({ error: "github_write_failed", status: putRes.status, detail });
       return;
     }
 

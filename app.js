@@ -489,9 +489,13 @@ async function requestScan() {
   btn.textContent = "Requesting…";
   try {
     const res = await fetch("/api/request-scan", { method: "POST" });
-    const json = await res.json();
-    if (!res.ok || json.error === "not_configured") {
-      showToast("Scan trigger isn't configured yet (missing GH_TOKEN on the server).", "error");
+    const json = await res.json().catch(() => ({}));
+    if (json.error === "not_configured") {
+      showToast("Scan trigger isn't set up: the GH_TOKEN variable is missing on the server.", "error");
+    } else if (json.status === 401 || json.status === 403) {
+      showToast("GitHub rejected the scan trigger's access token (expired or revoked). Create a new GH_TOKEN in Vercel and redeploy.", "error");
+    } else if (!res.ok) {
+      showToast("Scan request failed (" + (json.error || "HTTP " + res.status) + "). Try again shortly.", "error");
     } else if (json.throttled) {
       showToast("A scan was already requested at " + new Date(json.requested_at).toLocaleTimeString() + " — it's still running.", "warn");
       runCooldownUntil = Date.now() + 4 * 60 * 1000;
