@@ -1,5 +1,79 @@
 {
-  "status": "error",
-  "error": "scan_in_progress",
-  "scanned_at": "2026-10-20T16:22:00Z"
+  "status": "ok",
+  "scanned_at": "2026-10-20T16:41:55.955Z",
+  "candidates_checked": 10,
+  "hits": [],
+  "all_results": [
+    {
+      "symbol": "BRZE",
+      "macd_setup_pass": false,
+      "ma200_pass": true,
+      "trend_pass": null,
+      "reason": "macd_setup_failed (MACD already bullish; acquisition-gap spike)"
+    },
+    {
+      "symbol": "KVYO",
+      "macd_setup_pass": false,
+      "ma200_pass": false,
+      "trend_pass": null,
+      "reason": "macd_setup_failed; below MA200"
+    },
+    {
+      "symbol": "TLK",
+      "macd_setup_pass": false,
+      "ma200_pass": false,
+      "trend_pass": null,
+      "reason": "macd_setup_failed; below MA200"
+    },
+    {
+      "symbol": "XPEV",
+      "macd_setup_pass": false,
+      "ma200_pass": false,
+      "trend_pass": null,
+      "reason": "histogram rising but below MA200"
+    },
+    {
+      "symbol": "SLS",
+      "macd_setup_pass": false,
+      "ma200_pass": true,
+      "trend_pass": null,
+      "reason": "macd_setup_failed (histogram widening, not shrinking)"
+    },
+    {
+      "symbol": "EFX",
+      "macd_setup_pass": false,
+      "ma200_pass": false,
+      "trend_pass": null,
+      "reason": "macd_setup_failed; below MA200"
+    },
+    {
+      "symbol": "MYGN",
+      "macd_setup_pass": false,
+      "ma200_pass": false,
+      "trend_pass": null,
+      "reason": "macd_setup_failed; below MA200"
+    },
+    {
+      "symbol": "SAIQ",
+      "macd_setup_pass": false,
+      "ma200_pass": false,
+      "trend_pass": null,
+      "reason": "insufficient_history (16 daily bars)"
+    },
+    {
+      "symbol": "WORX",
+      "macd_setup_pass": false,
+      "ma200_pass": false,
+      "trend_pass": null,
+      "reason": "macd_setup_failed; below MA200"
+    },
+    {
+      "symbol": "AIXI",
+      "macd_setup_pass": false,
+      "ma200_pass": false,
+      "trend_pass": null,
+      "reason": "macd_setup_failed; below MA200"
+    }
+  ],
+  "note": "Run executed ~12:50 ET during regular session (not premarket); premarket_price not evaluated for tickers that already failed MACD/MA200 checks."
 }
